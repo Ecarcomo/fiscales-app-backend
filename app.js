@@ -31,7 +31,7 @@ const passwordDB = encodeURIComponent(process.env.passwordDB);
 const cluster = process.env.cluster; // Cambiá por tu cluster real
 const dbName = process.env.dbName;
 
-const MONGO_URI = `mongodb+srv://${usuarioDB}:${passwordDB}@${cluster}/${dbName}?retryWrites=true&w=majority`;
+const MONGO_URI = `mongodb+srv://${usuarioDB}:${passwordDB}@${cluster}/?retryWrites=true&w=majority&appName=${dbName}`;
 
 
 // Conexión DB y arranque
