@@ -1,0 +1,37 @@
+// app.js
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const morgan = require("morgan"); 
+require("dotenv").config();
+
+const authRoutes = require("./routes/auth");
+const usuarioRoutes = require("./routes/usuarios");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(morgan("dev"));
+
+
+// Rutas
+app.use("/auth", authRoutes);
+app.use("/usuarios", usuarioRoutes);
+
+const usuarioDB = process.env.usuarioDB;
+const passwordDB = encodeURIComponent(process.env.passwordDB);
+const cluster = process.env.cluster; // Cambiá por tu cluster real
+const dbName = process.env.dbName;
+
+const MONGO_URI = `mongodb+srv://${usuarioDB}:${passwordDB}@${cluster}/${dbName}?retryWrites=true&w=majority`;
+
+
+// Conexión DB y arranque
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log("MongoDB conectado");
+    app.listen(process.env.PORT, () => {
+      console.log(`Servidor en http://localhost:${process.env.PORT}`);
+    });
+  })
+  .catch(err => console.error(err));
