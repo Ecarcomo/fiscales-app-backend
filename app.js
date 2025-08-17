@@ -21,6 +21,11 @@ app.use(morgan("dev"));
 app.use("/auth", authRoutes);
 app.use("/usuarios", usuarioRoutes);
 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor en puerto ${PORT}`);
+});
+
 const usuarioDB = process.env.usuarioDB;
 const passwordDB = encodeURIComponent(process.env.passwordDB);
 const cluster = process.env.cluster; // Cambiá por tu cluster real
