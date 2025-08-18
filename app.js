@@ -33,8 +33,6 @@ const dbName = process.env.dbName;
 
 const MONGO_URI = `mongodb+srv://${usuarioDB}:${passwordDB}@${cluster}/?retryWrites=true&w=majority&appName=${dbName}`;
 
-console.log('MONGO_URI: ',MONGO_URI);
-
 // Conexión DB y arranque
 mongoose.connect(MONGO_URI)
   .then(() => {
