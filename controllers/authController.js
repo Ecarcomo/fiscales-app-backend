@@ -6,11 +6,12 @@ exports.login = async (req, res) => {
   const { usuario, password } = req.body;
   console.log("Login attempt for user:", usuario);
   const user = await Usuario.findOne({ usuario });
+  console.log("User fetched from DB:", user ? user.usuario : "not found");
   if (!user) return res.status(400).json({ mensaje: "Usuario no encontrado" });
-  console.log("User found:", user.usuario);
+ 
   const valido = await bcrypt.compare(password, user.passwordHash);
   if (!valido) return res.status(400).json({ mensaje: "Contraseña incorrecta" });
-  console.log("Password valid for user:", user.usuario);
+
   const token = jwt.sign({ _id: user._id,
                           nombre: user.nombre,
                           usuario: user.usuario,
@@ -20,7 +21,7 @@ exports.login = async (req, res) => {
      process.env.JWT_SECRET, { expiresIn: "1h" });
   user.ultimo_acceso = new Date();
   await user.save();
-                          console.log("Token generated for user:", user.usuario);
+                         
   res.json({ token, usuario: user.usuario, rol: user.rol });
 };
 
