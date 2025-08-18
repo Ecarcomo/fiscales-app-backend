@@ -128,7 +128,8 @@ exports.actualizarUsuario = async (req, res) => {
 };
 
 exports.obtenerUsuariosDescendientes = async (req, res) => {
-  const usuarios = await Usuario.find({ delegado_a_id: req.usuario._id });
+  const { delegado_a_id } = req.params;
+  const usuarios = await Usuario.find({ delegado_a_id: delegado_a_id });
   res.json(usuarios);
 };
 
